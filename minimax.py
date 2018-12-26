@@ -76,3 +76,9 @@ class TestMinimaxWorkshop(unittest.TestCase):
         child = TreeNode(None, [grandchild_1, grandchild_2])
         parent = TreeNode(None, [child])
         self.assertTrue(self.mm.score(parent) == -5)
+
+    def test_itReturnsTheScoreOfAGameWithOneMoveAndTwoPossibleEndStates(self):
+        child_one = TreeNode(0)
+        child_two = TreeNode(1)
+        parent = TreeNode(None, [child_one, child_two])
+        self.assertTrue(self.mm.score(parent) == 1)
