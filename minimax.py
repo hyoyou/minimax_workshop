@@ -5,30 +5,25 @@ class TreeNode:
         self.score = score
         self.children = children
 
-    def add_child(self, child):
-        self.children.append(child)
-
 class MinimaxWorkshop:
     def score(self, node):
         if node.score == None:
-            return self.maximize(node.children[0])
+            result = []
+            for child in node.children: 
+                result.append(self.maximize(child))
+            return max(result)
         else:
             return node.score
 
     def maximize(self, node):
         if node.score == None:
-            scores = []
-            for child in node.children:
-                scores.append(child.score)
-            return min(scores)
+            result = []
+            for child in node.children: 
+                result.append(self.score(child))
+            return min(result)
         else:
             return node.score
-    
-    def minimize(self, node):
-        if node.score == None:
-            return self.maximize(node.children[0])
-        else:
-            return node.score
+
 
 class TestTreeNode(unittest.TestCase):
     def test_itHasADefaultScoreOfNone(self):
@@ -68,3 +63,16 @@ class TestMinimaxWorkshop(unittest.TestCase):
         child = TreeNode(None, [grandchild_one, grandchild_two, grandchild_three])
         parent = TreeNode(None, [child])
         self.assertTrue(self.mm.score(parent) == -10)
+    
+    def test_itReturnsTheScoreOfAGameWithFourMovesAndOnlyTheMinimizerGetsToMove(self):
+        leaf_1 = TreeNode(1)
+        leaf_2 = TreeNode(0)
+        leaf_3 = TreeNode(2)
+        leaf_4 = TreeNode(-5)
+        node_level3_a = TreeNode(None, [leaf_1, leaf_2])
+        node_level3_b = TreeNode(None, [leaf_3, leaf_4])
+        grandchild_1 = TreeNode(None, [node_level3_a])
+        grandchild_2 = TreeNode(None, [node_level3_b])
+        child = TreeNode(None, [grandchild_1, grandchild_2])
+        parent = TreeNode(None, [child])
+        self.assertTrue(self.mm.score(parent) == -5)
