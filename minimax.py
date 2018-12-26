@@ -17,7 +17,10 @@ class MinimaxWorkshop:
 
     def maximize(self, node):
         if node.score == None:
-            return self.minimize(node.children[0])
+            scores = []
+            for child in node.children:
+                scores.append(child.score)
+            return min(scores)
         else:
             return node.score
     
@@ -50,3 +53,18 @@ class TestMinimaxWorkshop(unittest.TestCase):
         child = TreeNode(None, [grandchild])
         parent = TreeNode(None, [child])
         self.assertTrue(self.mm.score(parent) == 17)
+    
+    def test_itReturnsTheScoreOfAGameWithTwoMovesAndTwoPossibleEndStates(self):
+        grandchild_one = TreeNode(1)
+        grandchild_two = TreeNode(0)
+        child = TreeNode(None, [grandchild_one, grandchild_two])
+        parent = TreeNode(None, [child])
+        self.assertTrue(self.mm.score(parent) == 0)
+
+    def test_itReturnsTheScoreOfAGameWithTwoMovesAndThreePossibleEndStates(self):
+        grandchild_one = TreeNode(12)
+        grandchild_two = TreeNode(-10)
+        grandchild_three = TreeNode(4)
+        child = TreeNode(None, [grandchild_one, grandchild_two, grandchild_three])
+        parent = TreeNode(None, [child])
+        self.assertTrue(self.mm.score(parent) == -10)
