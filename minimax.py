@@ -82,3 +82,15 @@ class TestMinimaxWorkshop(unittest.TestCase):
         child_two = TreeNode(1)
         parent = TreeNode(None, [child_one, child_two])
         self.assertTrue(self.mm.score(parent) == 1)
+    
+    def test_itReturnsTheScoreOfAGameWithThreeMovesWhereOnlyTheMaximizerGetsToMove(self):
+        leaf_1 = TreeNode(11)
+        leaf_2 = TreeNode(10)
+        leaf_3 = TreeNode(22)
+        leaf_4 = TreeNode(-5000)
+        grandchild_1 = TreeNode(None, [leaf_1, leaf_2])
+        grandchild_2 = TreeNode(None, [leaf_3, leaf_4])
+        child_one = TreeNode(None, [grandchild_1])
+        child_two = TreeNode(None, [grandchild_2])
+        parent = TreeNode(None, [child_one, child_two])
+        self.assertTrue(self.mm.score(parent) == 22)
