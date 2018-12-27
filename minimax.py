@@ -7,29 +7,16 @@ class TreeNode:
 
 class MinimaxWorkshop:
     def score(self, node, level=0):
-        if node.score == None:
+        if node.score == None and level % 2 == 0:
             result = []
             for child in node.children: 
-                result.append(self.maximize(child, level+1))
+                result.append(self.score(child, level+1))
             return max(result)
-        else:
-            return node.score
-
-    def maximize(self, node, level=0):
-        if node.score == None:
+        elif node.score == None and level % 2 != 0:
             result = []
             for child in node.children: 
-                result.append(self.minimize(child, level+1))
+                result.append(self.score(child, level+1))
             return min(result)
-        else:
-            return node.score
-    
-    def minimize(self, node, level=0):
-        if node.score == None:
-            result = []
-            for child in node.children: 
-                result.append(self.maximize(child, level+1))
-            return max(result)
         else:
             return node.score
 
